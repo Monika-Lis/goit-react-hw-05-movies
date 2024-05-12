@@ -22,3 +22,50 @@ export const fetchTrending = async () => {
   const responseTrending = await axios(url, options);
   return responseTrending.data;
 };
+
+export async function fetchSearchedMovies(keywords, pageNo) {
+  const endUrl = 'search/movie';
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    query: keywords,
+    include_adult: false,
+    language: 'en-US',
+    page: pageNo,
+  });
+  const url = `${BASE_URL}${endUrl}?${searchParams}`;
+  const responseSearched = await axios(url, options);
+  return responseSearched.data;
+}
+
+export async function fetchMovieDetails(movieId) {
+  const endUrl = 'movie';
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+  });
+  const url = `${BASE_URL}${endUrl}/${movieId}?${searchParams}`;
+  const responseDetails = await axios(url, options);
+  return responseDetails.data;
+}
+
+export async function fetchMovieCast(movieId) {
+  const endUrl = 'movie';
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+  });
+  const url = `${BASE_URL}${endUrl}/${movieId}/credits?${searchParams}`;
+  const responseCast = await axios(url, options);
+  return responseCast.data;
+}
+
+export async function fetchMovieReviews(movieId) {
+  const endUrl = 'movie';
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+  });
+  const url = `${BASE_URL}${endUrl}/${movieId}/reviews?${searchParams}`;
+  const responseReview = await axios(url, options);
+  return responseReview.data;
+}

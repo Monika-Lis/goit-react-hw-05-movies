@@ -21,7 +21,7 @@ export const TrendingMovies = () => {
     <div>
       <h2>Trending Movies</h2>
       <div>
-        {trending.map(({ id, poster_path, title, vote_average }) => (
+        {trending.map(({ id, title }) => (
           <div className="card" key={id}>
             <Link to={`/movies/${id}`} state={{ from: location }}>
               <div className="info">
