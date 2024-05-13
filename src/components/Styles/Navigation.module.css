@@ -1,0 +1,26 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 830px;
+  margin: auto;
+  padding: 0px;
+  gap: 20px;
+}
+
+.navTitle {
+  font-size: 16px;
+  padding: 20px 0px;
+  font-weight: 500;
+  margin: 0;
+  color: rgb(13, 12, 14);
+}
+
+.navTitle:hover,
+.navTitle:active {
+  color: rgb(255, 136, 0);
+}
+
+header {
+  background-color: rgba(211, 207, 219, 0.584);
+}

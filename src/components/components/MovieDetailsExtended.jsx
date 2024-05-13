@@ -1,9 +1,10 @@
 import { fetchMovieCast, fetchMovieReviews } from 'components/API/API';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Notiflix from 'notiflix';
+import css from '../Styles/MovieDetailsExtended.module.css';
 
 export const Cast = () => {
-  const [error, setError] = useState(null);
   const [movieCast, setMovieCast] = useState([]);
   const { movieId } = useParams();
 
@@ -13,15 +14,14 @@ export const Cast = () => {
       .then(results => {
         setMovieCast(results.cast);
       })
-      .catch(error => {
-        setError(error);
+      .catch(() => {
+        Notiflix.Notify.failure('Error fetching data');
       });
   }, [movieId]);
 
   return (
     <>
       <h4>Cast</h4>
-      {error && <p>{error.message}</p>}
       <div>
         {movieCast.length > 0 ? (
           <ul>
@@ -30,7 +30,7 @@ export const Cast = () => {
             ))}
           </ul>
         ) : (
-          <p>No cast information available.</p>
+          <h4>No cast information available.</h4>
         )}
       </div>
     </>
@@ -38,7 +38,6 @@ export const Cast = () => {
 };
 
 export const Reviews = () => {
-  const [error, setError] = useState(null);
   const [movieReviews, setMovieReviews] = useState([]);
   const { movieId } = useParams();
 
@@ -48,21 +47,25 @@ export const Reviews = () => {
       .then(results => {
         setMovieReviews(results.results);
       })
-      .catch(error => {
-        setError(error);
+      .catch(() => {
+        Notiflix.Notify.failure('Error fetching data');
       });
   }, [movieId]);
 
   return (
     <>
       <h4>Review</h4>
-      {error && <p>{error.message}</p>}
       <div>
         {movieReviews.length > 0 ? (
           <ul>
             {movieReviews.map(movieReview => (
               <li key={movieReview.id}>
-                <p>Author:{movieReview.author}</p>
+                <p className={css.author}>
+                  Author:
+                  <span className={css.reviewer}>
+                    {movieReview.author}
+                  </span>{' '}
+                </p>
                 <p>{movieReview.content}</p>
               </li>
             ))}

@@ -69,3 +69,15 @@ export async function fetchMovieReviews(movieId) {
   const responseReview = await axios(url, options);
   return responseReview.data;
 }
+
+export async function fetchGenres() {
+  const endUrl = 'genre/movie/list';
+  const searchParams = new URLSearchParams({
+    language: 'en',
+  });
+  const url = new URL(`${BASE_URL}${endUrl}?${searchParams}`);
+
+  const responseGenre = await axios.get(url, options);
+  console.log(responseGenre);
+  return responseGenre.data;
+}

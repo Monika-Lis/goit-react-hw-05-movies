@@ -1,9 +1,13 @@
+import Notiflix from 'notiflix';
+import css from '../Styles/Movies.module.css';
+import PropTypes from 'prop-types';
+
 export const SearchBar = ({ query, onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
     const queryWords = event.target.searchInput.value;
     if (queryWords.trim() === '') {
-      alert('Please enter what you are looking for!');
+      Notiflix.Notify.warning('Please enter a title!');
       return;
     }
     const newQuery = queryWords.split(' ').join('+');
@@ -12,18 +16,24 @@ export const SearchBar = ({ query, onSubmit }) => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <span>Search for movies:</span>
-        <input
-          type="text"
-          id="searchInput"
-          name="searchInput"
-          value={query}
-          placeholder="enter part of title"
-        ></input>
-        <button type="submit">Search</button>
-      </form>
-    </>
+    <form onSubmit={handleSubmit} className={css.form}>
+      <span className={css.text}>Search for movies:</span>
+      <input
+        className={css.input}
+        type="text"
+        id="searchInput"
+        name="searchInput"
+        value={query}
+        placeholder="Enter title"
+      ></input>
+      <button type="submit" className={css.button}>
+        Search
+      </button>
+    </form>
   );
+};
+
+SearchBar.propTypes = {
+  query: PropTypes.string,
+  onSubmit: PropTypes.func,
 };

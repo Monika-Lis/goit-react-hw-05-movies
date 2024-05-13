@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovieDetails } from 'components/API/API';
+import Notiflix from 'notiflix';
+import css from '../Styles/MovieDetails.module.css';
 
 export const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});
-  const [error, setError] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
 
@@ -16,50 +17,57 @@ export const MovieDetails = () => {
       .then(results => {
         setMovieDetails(results);
       })
-      .catch(error => {
-        setError(error);
+      .catch(() => {
+        Notiflix.Notify.failure('Error fetching data');
       });
   }, [movieId]);
 
-  const { poster_path, title, overview, vote_average, release_date } =
+  const { title, overview, vote_average, release_date, poster_path } =
     movieDetails;
-  let genresList = '';
   return (
-    <main>
-      <Link to={backLink}>Back</Link>
-      <h2>Movie details</h2>
-      {error && <p>{error.message}</p>}
+    <main className={css.section}>
+      <Link to={backLink}>
+        <div className={css.back}>Back</div>
+      </Link>
       {movieDetails && (
         <>
-          <div>
+          <div className={css.movie}>
             <div>
               <img
+                className={css.img}
                 src={`https://image.tmdb.org/t/p/w300\\${poster_path}`}
                 alt="Movie Poster"
               />
             </div>
-            <div>
-              <h3>{title}</h3>
+            <div className={css.movieDetails}>
+              <h3 className={css.movieTitle}>{title}</h3>
               <div>
-                <p>{genresList}</p>
+                <p>
+                  {movieDetails.genres &&
+                    movieDetails.genres.map(genre => genre.name).join(', ')}
+                </p>
               </div>
               <div>
-                <p>Overview</p>
+                <h6>Overview</h6>
                 <p>{overview}</p>
               </div>
               <div>
-                <p>Release date</p>
+                <h6>Release date</h6>
                 <p>{release_date}</p>
               </div>
               <div>
-                <p>Average rating</p>
+                <h6>Average rating</h6>
                 <p>{vote_average} / 10</p>
               </div>
             </div>
           </div>
-          <div>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+          <div className={css.extendedDiv}>
+            <Link to={`/movies/${movieId}/cast`}>
+              <p className={css.extended}>Cast</p>
+            </Link>
+            <Link to={`/movies/${movieId}/reviews`}>
+              <p className={css.extended}>Reviews</p>
+            </Link>
           </div>
         </>
       )}
